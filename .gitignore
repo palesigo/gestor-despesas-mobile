@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.budgetwork
+despesas*.xlsx
+orcamento*.xlsx
+*.csv
