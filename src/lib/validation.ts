@@ -1,0 +1,2 @@
+import type {MobileConfig} from "../types";
+export function validateMobileConfig(v:unknown):MobileConfig{const x=v as Partial<MobileConfig>;if(!x||x.schemaVersion!==1||x.type!=="budget-mobile-config"||!Array.isArray(x.pessoas)||!Array.isArray(x.grupos))throw new Error("Ficheiro de configuração inválido ou incompatível.");return x as MobileConfig}
