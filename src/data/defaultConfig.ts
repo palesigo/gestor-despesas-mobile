@@ -1,6 +1,6 @@
 import type { MobileConfig } from "../types";
 const o=(subgrupo:string,categoria:string)=>({subgrupo,categoria});
-export const defaultConfig:MobileConfig={schemaVersion:1,type:"budget-mobile-config",version:"1.0.0",generatedAt:new Date().toISOString(),anoAtivo:new Date().getFullYear(),pessoas:["João","Companheira"],grupos:[
+export const defaultConfig:MobileConfig={schemaVersion:1,type:"budget-mobile-config",version:"1.0.0",generatedAt:new Date().toISOString(),anoAtivo:new Date().getFullYear(),pessoas:["Paulo","Lena",""],grupos:[
 {nome:"Casa",opcoes:[o("Supermercado","Supermercado"),o("Água","Casa"),o("Gás","Casa"),o("Eletricidade","Casa"),o("Comunicações","Casa"),o("Limpeza","Casa"),o("Engomadoria","Casa"),o("Condomínio","Condomínio"),o("IMI","Impostos"),o("Seguro Casa","Seguros"),o("Obras","Casa"),o("Outros","Casa")]},
 {nome:"Carros",opcoes:[o("Combustível","Carros"),o("Portagens","Carros"),o("Estacionamento","Carros"),o("Revisão","Carros"),o("Lavagem","Carros"),o("Pneus","Carros"),o("Bateria","Carros"),o("Inspeção","Carros"),o("IUC","Impostos"),o("Seguro","Seguros"),o("Outros","Carros")]},
 {nome:"Refeições",opcoes:[o("Restaurante","Refeições"),o("Café / Lanche","Refeições"),o("Delivery","Refeições"),o("Uber","Refeições"),o("Orelhas","Orelhas"),o("Outros","Refeições")]},
