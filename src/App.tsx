@@ -374,4 +374,177 @@ export default function App() {
                 <input
                   value={form.nota}
                   placeholder="Ex.: Continente, Amazon..."
-             
+                  onChange={(event) => updateForm({ nota: event.target.value })}
+                />
+              </label>
+            </div>
+
+            <button className="primary submit" type="submit">
+              {editing ? "Guardar alterações" : "Guardar despesa"}
+            </button>
+          </form>
+        </section>
+
+        <section>
+          <div className="title">
+            <div>
+              <small>VISÃO MENSAL</small>
+              <h2>Resumo</h2>
+            </div>
+
+            <select value={month} onChange={(event) => setMonth(event.target.value)}>
+              {months.map((monthValue) => (
+                <option key={monthValue} value={monthValue}>
+                  {monthLabel(monthValue)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="stats">
+            <article>
+              <span>Total gasto</span>
+              <strong>{money(total)}</strong>
+            </article>
+            <article>
+              <span>Despesas</span>
+              <strong>{monthRows.length}</strong>
+            </article>
+            <article>
+              <span>Categorias</span>
+              <strong>{byCategory.length}</strong>
+            </article>
+          </div>
+
+          <div className="card">
+            <h3>Por categoria</h3>
+            {byCategory.length === 0 ? (
+              <p>Sem despesas neste mês.</p>
+            ) : (
+              byCategory.map(([category, amount]) => (
+                <div className="cat" key={category}>
+                  <div>
+                    <span>{category}</span>
+                    <b>{money(amount)}</b>
+                  </div>
+                  <i>
+                    <em style={{ width: `${Math.max(2, (amount / total) * 100)}%` }} />
+                  </i>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        <section className="card">
+          <div className="title">
+            <div>
+              <small>HISTÓRICO</small>
+              <h2>Despesas do mês</h2>
+            </div>
+            <b>{monthRows.length}</b>
+          </div>
+
+          {monthRows.length === 0 ? (
+            <p>Sem despesas neste mês.</p>
+          ) : (
+            monthRows.map((expense) => (
+              <article className="item" key={expense.id}>
+                <div>
+                  <strong>{expense.subgrupo}</strong>
+                  <p>{expense.grupo} · {expense.categoria}</p>
+                  <small>
+                    {datePt(expense.data)} · Pago por {expense.pagoPor}
+                    {expense.nota ? ` · ${expense.nota}` : ""}
+                  </small>
+                </div>
+
+                <div>
+                  <strong>{money(expense.valor)}</strong>
+                  <button type="button" onClick={() => editExpense(expense)}>
+                    ✎
+                  </button>
+                  <button
+                    className="delete"
+                    type="button"
+                    onClick={() => void removeExpense(expense)}
+                  >
+                    ×
+                  </button>
+                </div>
+              </article>
+            ))
+          )}
+        </section>
+
+        <section className="card export">
+          <div>
+            <small>APLICAÇÃO CENTRAL</small>
+            <h2>Exportar despesas</h2>
+            <p>
+              Inclui movimentos novos, editados ou eliminados desde a última exportação.
+            </p>
+          </div>
+
+          <div>
+            <b>{pending} pendente(s)</b>
+            <button
+              className="primary"
+              type="button"
+              disabled={pending === 0}
+              onClick={() => void exportData()}
+            >
+              Partilhar / descarregar
+            </button>
+          </div>
+
+          {message && <p className="message">{message}</p>}
+        </section>
+
+        <section className="settings">
+          <button type="button" onClick={() => setShowSettings((value) => !value)}>
+            ⚙ Definições
+          </button>
+
+          {showSettings && (
+            <div className="card">
+              <label>
+                Perfil deste telemóvel
+                <select
+                  value={settings.perfilAtivo}
+                  onChange={(event) => void changeProfile(event.target.value)}
+                >
+                  {settings.config.pessoas.map((person) => (
+                    <option key={person} value={person}>
+                      {person}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <input
+                ref={configInput}
+                type="file"
+                accept=".json"
+                hidden
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void importConfig(file);
+                  event.target.value = "";
+                }}
+              />
+
+              <button type="button" onClick={() => configInput.current?.click()}>
+                Importar configuração
+              </button>
+
+              <p>
+                Versão {settings.config.version} · Ano ativo {settings.config.anoAtivo}
+              </p>
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}       
